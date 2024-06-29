@@ -40,7 +40,7 @@ defineOptions({
     <label
       v-if="suffix"
       :for="id"
-      class="grid place-items-center rounded-br-[0.25rem] rounded-tr-[0.25rem] border-b border-r border-t bg-slate-100 px-4 text-lg font-bold group-focus-within:border-lime group-focus-within:bg-lime group-focus-within:text-slate-900"
+      class="grid place-items-center rounded-br-[0.25rem] rounded-tr-[0.25rem] border-b border-r border-t px-4 text-lg font-bold group-focus-within:border-lime group-focus-within:bg-lime group-focus-within:text-slate-900"
       :class="error ? 'border-red bg-red text-white' : 'border-slate-500 bg-slate-100'"
     >
       {{ suffix }}
