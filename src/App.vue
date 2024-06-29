@@ -23,7 +23,7 @@ const mortgageAmount = computed(() => {
     return null
   }
 
-  return parseInt(form.value.amount.replace(/,/g, ''), 10)
+  return parseInt(form.value.amount.replaceAll(',', ''))
 })
 
 const submit = () => {
