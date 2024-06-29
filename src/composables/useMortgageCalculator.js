@@ -12,12 +12,12 @@ export function useMortgageCalculator() {
     }).format(value)
   }
 
-  function calculateMortgage(principal, annualInterestRate, years) {
-    const monthlyInterestRate = annualInterestRate / 100 / 12
-    const numberOfPayments = years * 12
+  function calculateMortgage(amount, term, interestRate) {
+    const monthlyInterestRate = interestRate / 100 / 12
+    const numberOfPayments = term * 12
 
     const payment =
-      (principal * (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments))) /
+      (amount * (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments))) /
       (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1)
 
     monthlyPayment.value = formatCurrency(payment)

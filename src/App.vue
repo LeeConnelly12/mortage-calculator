@@ -7,19 +7,14 @@ import { useMortgageCalculator } from '@/composables/useMortgageCalculator'
 const { monthlyPayment, totalPayment, calculateMortgage } = useMortgageCalculator()
 
 const form = ref({
-  mortgageAmount: null,
-  mortgageTerm: null,
+  amount: null,
+  term: null,
   interestRate: null,
-  mortgageType: null,
+  type: null,
 })
 
 const submit = () => {
-  calculateMortgage(
-    form.value.mortgageAmount,
-    form.value.interestRate,
-    form.value.mortgageTerm,
-    form.value.mortgageType,
-  )
+  calculateMortgage(form.value.amount, form.value.term, form.value.interestRate, form.value.type)
 }
 </script>
 
@@ -35,20 +30,20 @@ const submit = () => {
         </div>
         <div class="mt-6 grid grid-cols-2 gap-6 md:mt-10">
           <div class="col-span-full">
-            <label class="block" for="mortgageAmount">Mortgage Amount</label>
+            <label class="block" for="amount">Mortgage Amount</label>
             <input
-              v-model="form.mortgageAmount"
+              v-model="form.amount"
               type="text"
-              id="mortgageAmount"
+              id="amount"
               class="mt-3 w-full rounded-[0.25rem] border-slate-500 font-bold"
             />
           </div>
           <div class="col-span-full md:col-span-1">
-            <label class="block" for="mortgageTerm">Mortgage Term</label>
+            <label class="block" for="term">Mortgage Term</label>
             <input
-              v-model="form.mortgageTerm"
+              v-model="form.term"
               type="text"
-              id="mortgageTerm"
+              id="term"
               class="mt-3 w-full rounded-[0.25rem] border-slate-500 font-bold"
             />
           </div>
@@ -67,7 +62,7 @@ const submit = () => {
               class="mt-3 flex h-12 cursor-pointer items-center gap-4 rounded-[0.25rem] border border-slate-500 px-4"
             >
               <input
-                v-model="form.mortgageType"
+                v-model="form.type"
                 type="radio"
                 id="repayment"
                 value="repayment"
@@ -79,7 +74,7 @@ const submit = () => {
               class="mt-3 flex h-12 cursor-pointer items-center gap-4 rounded-[0.25rem] border border-slate-500 px-4"
             >
               <input
-                v-model="form.mortgageType"
+                v-model="form.type"
                 type="radio"
                 id="interestOnly"
                 value="interestOnly"
