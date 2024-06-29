@@ -20,6 +20,10 @@ const form = ref({
 const submit = () => {
   calculateMortgage(form.value.amount, form.value.term, form.value.interestRate, form.value.type)
 }
+
+const reset = () => {
+  form.value.type = null
+}
 </script>
 
 <template>
@@ -30,7 +34,7 @@ const submit = () => {
       <form @submit.prevent="submit" class="px-6 py-8 md:p-10">
         <div class="items-center justify-between md:flex">
           <h1 class="text-2xl font-bold text-slate-900">Mortgage Calculator</h1>
-          <button type="reset" class="mt-2 underline md:mt-0">Clear All</button>
+          <button @click="reset" type="reset" class="mt-2 underline md:mt-0">Clear All</button>
         </div>
         <div class="mt-6 grid grid-cols-2 gap-6 md:mt-10">
           <div class="col-span-full">
