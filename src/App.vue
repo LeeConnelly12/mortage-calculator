@@ -50,7 +50,13 @@ const reset = () => {
       <form @submit.prevent="submit" class="px-6 py-8 md:p-10">
         <div class="items-center justify-between md:flex">
           <h1 class="text-2xl font-bold text-slate-900">Mortgage Calculator</h1>
-          <button @click="reset" type="reset" class="mt-2 underline md:mt-0">Clear All</button>
+          <button
+            @click="reset"
+            type="reset"
+            class="mt-2 underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-slate-900 md:mt-0"
+          >
+            Clear All
+          </button>
         </div>
         <div class="mt-6 grid grid-cols-2 gap-6 md:mt-10">
           <div class="col-span-full">
@@ -113,7 +119,7 @@ const reset = () => {
         </div>
         <button
           type="submit"
-          class="mt-6 flex h-14 w-full items-center justify-center gap-3 rounded-full bg-lime text-lg font-bold text-slate-900 transition-colors hover:bg-lime/50 md:mt-10 md:w-auto md:px-10"
+          class="mt-6 flex h-14 w-full items-center justify-center gap-3 rounded-full bg-lime text-lg font-bold text-slate-900 transition-colors hover:bg-lime/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-slate-900 md:mt-10 md:w-auto md:px-10"
         >
           <Calculator />
           Calculate Repayments
