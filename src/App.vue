@@ -2,6 +2,10 @@
 import { ref } from 'vue'
 import Calculator from '@/components/Calculator.vue'
 import Illustration from '@/components/Illustration.vue'
+import MortgageAmount from '@/components/MortgageAmount.vue'
+import MortgageTerm from '@/components/MortgageTerm.vue'
+import InterestRate from '@/components/InterestRate.vue'
+import MortgageType from '@/components/MortgageType.vue'
 import { useMortgageCalculator } from '@/composables/useMortgageCalculator'
 
 const { monthlyPayment, totalPayment, calculateMortgage } = useMortgageCalculator()
@@ -31,62 +35,39 @@ const submit = () => {
         <div class="mt-6 grid grid-cols-2 gap-6 md:mt-10">
           <div class="col-span-full">
             <label class="block" for="amount">Mortgage Amount</label>
-            <input
-              v-model="form.amount"
-              type="text"
-              id="amount"
-              class="mt-3 w-full rounded-[0.25rem] border-slate-500 font-bold"
-            />
+            <MortgageAmount v-model="form.amount" id="amount" class="mt-3" />
           </div>
           <div class="col-span-full md:col-span-1">
             <label class="block" for="term">Mortgage Term</label>
-            <input
-              v-model="form.term"
-              type="text"
-              id="term"
-              class="mt-3 w-full rounded-[0.25rem] border-slate-500 font-bold"
-            />
+            <MortgageTerm v-model="form.term" id="term" class="mt-3" />
           </div>
           <div class="col-span-full md:col-span-1">
             <label class="block" for="interestRate">Interest Rate</label>
-            <input
-              v-model="form.interestRate"
-              type="text"
-              id="interestRate"
-              class="mt-3 w-full rounded-[0.25rem] border-slate-500 font-bold"
-            />
+            <InterestRate v-model="form.interestRate" id="interestRate" class="mt-3" />
           </div>
           <fieldset class="col-span-full">
             <legend>Mortgage Type</legend>
-            <label
-              class="mt-3 flex h-12 cursor-pointer items-center gap-4 rounded-[0.25rem] border border-slate-500 px-4"
-            >
-              <input
-                v-model="form.type"
-                type="radio"
-                id="repayment"
-                value="repayment"
-                class="size-5"
-              />
-              <span class="text-lg font-bold text-slate-900">Repayment</span>
-            </label>
-            <label
-              class="mt-3 flex h-12 cursor-pointer items-center gap-4 rounded-[0.25rem] border border-slate-500 px-4"
-            >
-              <input
-                v-model="form.type"
-                type="radio"
-                id="interestOnly"
-                value="interestOnly"
-                class="size-5"
-              />
-              <span class="text-lg font-bold text-slate-900">Interest Only</span>
-            </label>
+            <MortgageType
+              v-model="form.type"
+              :isSelected="form.type === 'repayment'"
+              class="mt-3"
+              label="Repayment"
+              id="repayment"
+              value="repayment"
+            />
+            <MortgageType
+              v-model="form.type"
+              :isSelected="form.type === 'interestOnly'"
+              class="mt-3"
+              label="Interest Only"
+              id="interestOnly"
+              value="interestOnly"
+            />
           </fieldset>
         </div>
         <button
           type="submit"
-          class="bg-lime mt-6 flex h-14 w-full items-center justify-center gap-3 rounded-full text-lg font-bold text-slate-900 md:mt-10 md:w-auto md:px-10"
+          class="bg-lime hover:bg-lime/50 mt-6 flex h-14 w-full items-center justify-center gap-3 rounded-full text-lg font-bold text-slate-900 transition-colors md:mt-10 md:w-auto md:px-10"
         >
           <Calculator />
           Calculate Repayments
