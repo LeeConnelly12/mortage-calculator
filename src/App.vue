@@ -2,6 +2,9 @@
 import { ref } from 'vue'
 import Calculator from '@/components/Calculator.vue'
 import Illustration from '@/components/Illustration.vue'
+import { useMortgageCalculator } from '@/composables/useMortgageCalculator'
+
+const { monthlyPayment, totalPayment, calculateMortgage } = useMortgageCalculator()
 
 const form = ref({
   mortgageAmount: null,
@@ -11,7 +14,12 @@ const form = ref({
 })
 
 const submit = () => {
-  //
+  calculateMortgage(
+    form.value.mortgageAmount,
+    form.value.interestRate,
+    form.value.mortgageTerm,
+    form.value.mortgageType,
+  )
 }
 </script>
 
@@ -32,7 +40,7 @@ const submit = () => {
               v-model="form.mortgageAmount"
               type="text"
               id="mortgageAmount"
-              class="mt-3 w-full rounded-[0.25rem] border-slate-500"
+              class="mt-3 w-full rounded-[0.25rem] border-slate-500 font-bold"
             />
           </div>
           <div class="col-span-full md:col-span-1">
@@ -41,7 +49,7 @@ const submit = () => {
               v-model="form.mortgageTerm"
               type="text"
               id="mortgageTerm"
-              class="mt-3 w-full rounded-[0.25rem] border-slate-500"
+              class="mt-3 w-full rounded-[0.25rem] border-slate-500 font-bold"
             />
           </div>
           <div class="col-span-full md:col-span-1">
@@ -50,25 +58,32 @@ const submit = () => {
               v-model="form.interestRate"
               type="text"
               id="interestRate"
-              class="mt-3 w-full rounded-[0.25rem] border-slate-500"
+              class="mt-3 w-full rounded-[0.25rem] border-slate-500 font-bold"
             />
           </div>
           <fieldset class="col-span-full">
             <legend>Mortgage Type</legend>
             <label
-              class="mt-3 flex h-12 items-center gap-4 rounded-[0.25rem] border border-slate-500 px-4"
+              class="mt-3 flex h-12 cursor-pointer items-center gap-4 rounded-[0.25rem] border border-slate-500 px-4"
             >
-              <input v-model="form.mortgageType" type="radio" id="repayment" value="repayment" />
+              <input
+                v-model="form.mortgageType"
+                type="radio"
+                id="repayment"
+                value="repayment"
+                class="size-5"
+              />
               <span class="text-lg font-bold text-slate-900">Repayment</span>
             </label>
             <label
-              class="mt-3 flex h-12 items-center gap-4 rounded-[0.25rem] border border-slate-500 px-4"
+              class="mt-3 flex h-12 cursor-pointer items-center gap-4 rounded-[0.25rem] border border-slate-500 px-4"
             >
               <input
                 v-model="form.mortgageType"
                 type="radio"
                 id="interestOnly"
                 value="interestOnly"
+                class="size-5"
               />
               <span class="text-lg font-bold text-slate-900">Interest Only</span>
             </label>
@@ -76,22 +91,42 @@ const submit = () => {
         </div>
         <button
           type="submit"
-          class="bg-lime mt-6 flex h-14 w-full items-center justify-center gap-3 rounded-full px-10 text-lg font-bold text-slate-900 md:mt-10 md:w-auto"
+          class="bg-lime mt-6 flex h-14 w-full items-center justify-center gap-3 rounded-full text-lg font-bold text-slate-900 md:mt-10 md:w-auto md:px-10"
         >
           <Calculator />
           Calculate Repayments
         </button>
       </form>
-      <div
-        class="grid place-items-center bg-slate-900 px-4 py-8 text-center md:p-10 lg:rounded-bl-3xl"
-      >
-        <div>
+      <div class="grid bg-slate-900 px-4 py-8 text-center md:p-10 lg:rounded-bl-3xl">
+        <div v-if="!monthlyPayment && !totalPayment" class="m-auto">
           <Illustration class="m-auto" />
           <h2 class="mt-4 text-2xl leading-none text-white">Results shown here</h2>
           <p class="mt-4 leading-normal text-slate-300">
-            Complete the form and click “calculate repayments” to see what your monthly repayments
+            Complete the form and click "calculate repayments" to see what your monthly repayments
             would be.
           </p>
+        </div>
+        <div v-else class="text-left">
+          <h2 class="text-2xl leading-none text-white">Your results</h2>
+          <p class="mt-4 leading-normal text-slate-300">
+            Your results are shown below based on the information you provided. To adjust the
+            results, edit the form and click "calculate repayments" again.
+          </p>
+          <div class="border-lime mt-6 rounded-lg border-t-4 bg-black/25 px-4 py-6 md:mt-10 md:p-8">
+            <dl>
+              <dt class="text-slate-300">Your monthly repayments</dt>
+              <dl class="text-lime mt-3 text-[2.5rem] font-bold md:text-[3.5rem]">
+                {{ monthlyPayment }}
+              </dl>
+            </dl>
+            <hr class="mt-4 h-[1px] w-full border-0 bg-[#9ABED5] bg-opacity-25 md:mt-8" />
+            <dl class="mt-4 md:mt-8">
+              <dt class="text-slate-300">Total you'll repay over the term</dt>
+              <dl class="mt-3 text-2xl font-bold leading-none text-white">
+                {{ totalPayment }}
+              </dl>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
