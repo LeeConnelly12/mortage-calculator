@@ -7,6 +7,7 @@ import MortgageTerm from '@/components/MortgageTerm.vue'
 import InterestRate from '@/components/InterestRate.vue'
 import MortgageType from '@/components/MortgageType.vue'
 import { useMortgageCalculator } from '@/composables/useMortgageCalculator'
+import { computed } from 'vue'
 
 const { monthlyPayment, totalPayment, calculateMortgage } = useMortgageCalculator()
 
@@ -17,8 +18,16 @@ const form = ref({
   type: null,
 })
 
+const mortgageAmount = computed(() => {
+  if (form.value.amount === null) {
+    return null
+  }
+
+  return parseInt(form.value.amount.replace(/,/g, ''), 10)
+})
+
 const submit = () => {
-  calculateMortgage(form.value.amount, form.value.term, form.value.interestRate, form.value.type)
+  calculateMortgage(mortgageAmount.value, form.value.term, form.value.interestRate, form.value.type)
 }
 
 const reset = () => {
@@ -71,7 +80,7 @@ const reset = () => {
         </div>
         <button
           type="submit"
-          class="bg-lime hover:bg-lime/50 mt-6 flex h-14 w-full items-center justify-center gap-3 rounded-full text-lg font-bold text-slate-900 transition-colors md:mt-10 md:w-auto md:px-10"
+          class="mt-6 flex h-14 w-full items-center justify-center gap-3 rounded-full bg-lime text-lg font-bold text-slate-900 transition-colors hover:bg-lime/50 md:mt-10 md:w-auto md:px-10"
         >
           <Calculator />
           Calculate Repayments
@@ -92,10 +101,10 @@ const reset = () => {
             Your results are shown below based on the information you provided. To adjust the
             results, edit the form and click "calculate repayments" again.
           </p>
-          <div class="border-lime mt-6 rounded-lg border-t-4 bg-black/25 px-4 py-6 md:mt-10 md:p-8">
+          <div class="mt-6 rounded-lg border-t-4 border-lime bg-black/25 px-4 py-6 md:mt-10 md:p-8">
             <dl>
               <dt class="text-slate-300">Your monthly repayments</dt>
-              <dl class="text-lime mt-3 text-[2.5rem] font-bold md:text-[3.5rem]">
+              <dl class="mt-3 text-[2.5rem] font-bold text-lime md:text-[3.5rem]">
                 {{ monthlyPayment }}
               </dl>
             </dl>
