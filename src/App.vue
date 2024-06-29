@@ -125,17 +125,17 @@ const reset = () => {
           Calculate Repayments
         </button>
       </form>
-      <div class="grid bg-slate-900 px-4 py-8 text-center md:p-10 lg:rounded-bl-3xl">
+      <div class="grid bg-slate-900 px-4 py-8 text-center md:p-10 lg:rounded-bl-[6rem]">
         <div v-if="!monthlyPayment && !totalPayment" class="m-auto">
           <Illustration class="m-auto" />
-          <h2 class="mt-4 text-2xl leading-none text-white">Results shown here</h2>
+          <h2 class="mt-4 text-2xl font-bold leading-none text-white">Results shown here</h2>
           <p class="mt-4 leading-normal text-slate-300">
             Complete the form and click "calculate repayments" to see what your monthly repayments
             would be.
           </p>
         </div>
         <div v-else class="text-left">
-          <h2 class="text-2xl leading-none text-white">Your results</h2>
+          <h2 class="text-2xl font-bold leading-none text-white">Your results</h2>
           <p class="mt-4 leading-normal text-slate-300">
             Your results are shown below based on the information you provided. To adjust the
             results, edit the form and click "calculate repayments" again.
