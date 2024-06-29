@@ -7,12 +7,15 @@ import MortgageTerm from '@/components/MortgageTerm.vue'
 import InterestRate from '@/components/InterestRate.vue'
 import MortgageType from '@/components/MortgageType.vue'
 import { useMortgageCalculator } from '@/composables/useMortgageCalculator'
+import { useFormValidation } from '@/composables/useFormValidation'
 import { computed } from 'vue'
 
 const { monthlyPayment, totalPayment, calculateMortgage } = useMortgageCalculator()
 
+const { validateForm, errors } = useFormValidation()
+
 const form = ref({
-  amount: null,
+  amount: '',
   term: null,
   interestRate: null,
   type: null,
@@ -27,6 +30,10 @@ const mortgageAmount = computed(() => {
 })
 
 const submit = () => {
+  if (!validateForm(form.value)) {
+    return
+  }
+
   calculateMortgage(mortgageAmount.value, form.value.term, form.value.interestRate, form.value.type)
 }
 
@@ -48,15 +55,38 @@ const reset = () => {
         <div class="mt-6 grid grid-cols-2 gap-6 md:mt-10">
           <div class="col-span-full">
             <label class="block" for="amount">Mortgage Amount</label>
-            <MortgageAmount v-model="form.amount" id="amount" class="mt-3" />
+            <MortgageAmount
+              v-model="form.amount"
+              id="amount"
+              class="mt-3"
+              :error="errors['amount']"
+            />
+            <label v-if="errors['amount']" class="text-red mt-3 block text-sm" for="amount">
+              {{ errors['amount'] }}
+            </label>
           </div>
           <div class="col-span-full md:col-span-1">
             <label class="block" for="term">Mortgage Term</label>
-            <MortgageTerm v-model="form.term" id="term" class="mt-3" />
+            <MortgageTerm v-model="form.term" id="term" class="mt-3" :error="errors['term']" />
+            <label v-if="errors['term']" class="text-red mt-3 block text-sm" for="term">
+              {{ errors['term'] }}
+            </label>
           </div>
           <div class="col-span-full md:col-span-1">
             <label class="block" for="interestRate">Interest Rate</label>
-            <InterestRate v-model="form.interestRate" id="interestRate" class="mt-3" />
+            <InterestRate
+              v-model="form.interestRate"
+              id="interestRate"
+              class="mt-3"
+              :error="errors['interestRate']"
+            />
+            <label
+              v-if="errors['interestRate']"
+              class="text-red mt-3 block text-sm"
+              for="interestRate"
+            >
+              {{ errors['interestRate'] }}
+            </label>
           </div>
           <fieldset class="col-span-full">
             <legend>Mortgage Type</legend>
@@ -76,6 +106,9 @@ const reset = () => {
               id="interestOnly"
               value="interestOnly"
             />
+            <label v-if="errors['type']" class="text-red mt-3 block text-sm" for="type">
+              {{ errors['type'] }}
+            </label>
           </fieldset>
         </div>
         <button
